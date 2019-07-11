@@ -49,12 +49,15 @@ class DeepSpaceData:
                     "f814w":25.94672,\
                     "f850lp":24.85725}
 
-
+    def available_data(self):
+        for clst in DeepSpaceData.clusters:
+            print(clst)
+        return None
 
     def available_filters(self,cluster):
         if cluster not in DeepSpaceData.clusters:
             raise deepspaceError(f"{cluster} not available. Choice of {DeepSpaceData.clusters}")
-            
+
         for flt in DeepSpaceData.availableFilters[cluster]:
             print(flt)
         return None
