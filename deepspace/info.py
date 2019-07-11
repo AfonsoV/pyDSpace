@@ -1,6 +1,6 @@
 from .errors import deepspaceError
 
-class DeepSpaceData:
+class DeepSpaceInfo:
 
     def __init__(self):
         return None
@@ -49,15 +49,29 @@ class DeepSpaceData:
                     "f814w":25.94672,\
                     "f850lp":24.85725}
 
+    image_modes = ["bcgs_models","bcgs_out","psf_matched","original"]
+
+    def verify_cluster(self,cluster):
+        if cluster not in DeepSpaceInfo.clusters:
+            raise deepspaceError(f"{cluster} not available. Choice of {DeepSpaceInfo.clusters}")
+
+    def verify_filter(self,cluster,filter):
+        self.verify_cluster(cluster)
+        if filter not in DeepSpaceInfo.availableFilters[cluster]:
+            raise deepspaceError(f"{filter} not available for cluster {cluster}.\nChoice of {DeepSpaceInfo.availableFilters[cluster]}")
+
+    def available_image_modes(self):
+        for mode in DeepSpaceInfo.image_modes:
+            print(mode)
+        return None
+
     def available_data(self):
-        for clst in DeepSpaceData.clusters:
+        for clst in DeepSpaceInfo.clusters:
             print(clst)
         return None
 
     def available_filters(self,cluster):
-        if cluster not in DeepSpaceData.clusters:
-            raise deepspaceError(f"{cluster} not available. Choice of {DeepSpaceData.clusters}")
-
-        for flt in DeepSpaceData.availableFilters[cluster]:
+        self.verify_cluster(cluster)
+        for flt in DeepSpaceInfo.availableFilters[cluster]:
             print(flt)
         return None
