@@ -1,4 +1,13 @@
+import os
+
 from .errors import deepspaceError
+
+
+DataFolder = os.getenv("DEEPSPACE")
+
+if DataFolder is None:
+    raise deepspaceError("DEEPSPACE environment variable not set.")
+
 
 class DeepSpaceInfo:
 
@@ -50,6 +59,24 @@ class DeepSpaceInfo:
                     "f850lp":24.85725}
 
     image_modes = ["bcgs_models","bcgs_out","psf_matched","original"]
+
+    cluster_coords = {"macs0717":(109.43863048556054, 109.33323737580649, 37.708234125318704, 37.791567413408224),\
+                      "abell2744":(3.6349786790793948, 3.531611340899466, -30.439247968007468, -30.336748088394312),\
+                      "abell370":(40.00302643255294, 39.92299569762585, -1.6432928825364999, -1.5332929431505387),\
+                      "macs1149":(177.44326387785338, 177.34591790002193, 22.356309256746993, 22.446309208248984),\
+                      "abell1063":(342.23815044338255, 342.12452654293924, -44.57507016811651, -44.48856837273851),\
+                      "macs0416":(64.08056990070776, 63.989300170823576, -24.114107728713556, -24.030773153403377)}
+
+    def get_cluster_from_coords(self,ra,dec):
+        for cluster,limits in DeepSpaceInfo.cluster_coords.items():
+            if (ra>limits[1]) and (ra<limits[0]):
+                return cluster
+        raise deepspaceError(f"Coordinates {ra},{dec} outside cluster boundaries.")
+        return None
+
+    def verify_mode(self,mode):
+        if mode not in DeepSpaceInfo.image_modes:
+            raise deepspaceError(f"{mode} not available. Choice of {DeepSpaceInfo.image_modes}")
 
     def verify_cluster(self,cluster):
         if cluster not in DeepSpaceInfo.clusters:
