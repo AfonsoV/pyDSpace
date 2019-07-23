@@ -25,5 +25,3 @@ class FitsImage:
         else:
             skyPosition = SkyCoord(ra,dec,unit=u.deg,frame="icrs")
         return Cutout2D(self.data, skyPosition, size, wcs=self.wcs, **kwargs)
-
-    

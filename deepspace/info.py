@@ -14,6 +14,12 @@ class DeepSpaceInfo:
     def __init__(self):
         return None
 
+
+    filter_order = ['f225w','f275w','f336w','f390w','f435w','f475w','f555w',\
+                    'f606w','f625w','f775w','f814w','f850lp','f105w',\
+                    'f110w','f125w','f140w','f160w','Ks','ch1','ch2',\
+                    'ch3','ch4','det','seg']
+
     clusters = ["abell1063","abell2744","abell370","macs0416","macs0717","macs1149"]
 
     availableFilters = {"abell1063":['Ks', 'ch1', 'ch2', 'ch3', 'ch4', 'f105w',\
@@ -102,3 +108,6 @@ class DeepSpaceInfo:
         for flt in DeepSpaceInfo.availableFilters[cluster]:
             print(flt)
         return None
+
+    def sort_filters(self,fltr):
+        return DeepSpaceInfo.filter_order.index(fltr)
